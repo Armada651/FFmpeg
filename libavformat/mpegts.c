@@ -1842,13 +1842,13 @@ static int handle_packet(MpegTSContext *ts, const uint8_t *packet)
         p += p[0] + 1;
     }
     /* if past the end of packet, ignore */
-    p_end = packet + TS_PACKET_SIZE;
+    p_end = packet + ts->raw_packet_size;
     if (p >= p_end)
         return 0;
 
     pos = avio_tell(ts->stream->pb);
-    av_assert0(pos >= TS_PACKET_SIZE);
-    ts->pos47_full = pos - TS_PACKET_SIZE;
+    av_assert0(pos >= ts->raw_packet_size);
+    ts->pos47_full = pos - ts->raw_packet_size;
 
     if (tss->type == MPEGTS_SECTION) {
         if (is_start) {
